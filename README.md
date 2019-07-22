@@ -1,140 +1,83 @@
-# image-resize
-Image resizing in php
-
-### install
+# install
 ```bash
 composer require uginroot/image-resize:^1.0
 ```
-
-### createFromString
+#Create
+#### createFromString
 ```php
-/**
- * @param string $content
- * @return static
- * @throws ImageResizeBadContentException
- * @throws ImageResizeBadResourceException
- */
 $image = ImageResize::createFromString(file_get_content($path));
 ```
 
-### createFromPath
+#### createFromPath
 ```php
-/**
- * @param string $path
- * @return static
- * @throws ImageResizeFileNotExistException
- * @throws ImageResizeBadContentException
- * @throws ImageResizeBadResourceException
- */
 $image = ImageResize::createFromPath($path);
 ```
 
-### __constructor
+#### __constructor
 ```php
 $content = file_get_content($path);
 $resource = imagecreatefromstring($content);
-/**
- * @param resource $image
- * @param string|null $content = null
- * @throws ImageResizeBadResourceException
- */
 $image = new ImageCreate($resource, $content);
 $image = new ImageCreate($resource); // $image->resetOrientation() not working
 ```
-
+# Save
 ### formats
 ```php
-echo ImageCreate::FORMAT_JPEG;
-echo ImageCreate::FORMAT_PNG;
-echo ImageCreate::FORMAT_WEBP;
+ImageCreate::FORMAT_JPEG;
+ImageCreate::FORMAT_PNG;
+ImageCreate::FORMAT_WEBP;
 ```
 
-### save
+#### save
 ```php
-/**
- * @param string $path
- * @param int $format = ImageCreate::FORMAT_JPEG
- * @param bool $overwrite = false
- * @param int $mode = 0666
- * @return static
- * @throws ImageResizeBadFormatException
- * @throws ImageResizeFileAlreadyExistException
- */
 $image->save($path);
-$image->save($path, ImageCreate::FORMAT_PNG, true, 0666);
+// save(string $path[, int $format = ImageCreate::FORMAT_JPEG[, bool $owerwrite = true[, int $mode = 0666]]]):static
 ```
 
-### getContent
+#### getContent
 ```php
-/**
- * @param int $format = ImageCreate::FORMAT_JPEG
- * @return string
- * @throws ImageResizeBadFormatException
- */
 echo $image->getContent();
-echo $image->getContent(ImageCreate::FORMAT_PNG);
+// getContent([int $format = ImageCreate::FORMAT_JPEG]);
 ```
 
-### print
+#### print
 ```php
-/**
- * @param int $format = ImageCreate::FORMAT_JPEG
- * @return void
- * @throws ImageResizeBadFormatException
- */
 $image->print();
-$image->print(ImageCreate::FORMAT_PNG);
+// $image->print([int $format = ImageCreate::FORMAT_JPEG]);
 ```
 
-### __toString
+#### __toString
 ```php
-$image = ImageResize::createFromPath($path);
-$content =  (string)$image;
-$content === $image->getContent(ImageCreate::FORMAT_JPEG); // true
+(string)$image === $image->getContent(ImageCreate::FORMAT_JPEG); // true
 ```
 
-### copyResource
+#### copyResource
 ```php
-/**
- * @return resource
- */
 $image->copyResource();
 ```
 
-### getWidth
+# Info
+#### getWidth
 ```php
-/**
- * @return int
- */
 $image->getWidth();
 ```
 
-### getHeight
+#### getHeight
 ```php
-/**
- * @return int
- */
 $image->getHeight();
 ```
 
-### resetOrientation
+# resetOrientation
 Rotate photo if the set exif orientation tag
 ```php
-/**
- * @return static
- * @throws ImageResizeNotSupportResetOrientationException
- */
 $image->resetOrientation();
 ```
 
-
+# Change image
 ### scale
 ```php
-/**
- * @param int|float $percent
- * @return static
- */
 $image->scale(50);
+// scale(int|float 50)
 ```
 |original(600x300) |result(300x150) |
 |--------|------|
@@ -142,14 +85,8 @@ $image->scale(50);
 
 ### resize
 ```php
-/**
- * @param int $width
- * @param int $height
- * @param bool $increase = true
- * @return static
- */
 $image->resize(100, 100);
-// $image->resize(1000, 1000, true);
+// resize(int $width, int $heihht[, bool $increase = true])
 ```
 |original(600x300) |result(100x100) |
 |--------|------|
@@ -158,13 +95,8 @@ $image->resize(100, 100);
 
 ### resizeToHeight
 ```php
-/**
- * @param int $height
- * @param bool $increase = true
- * @return static
- */
 $image->resizeToHeight(100);
-// $image->resizeToHeight(1000, true);
+// resizeToHeight(int $height[, bool $increase = true])
 ```
 |original(600x300) |result(100x200) |
 |--------|------|
@@ -173,13 +105,8 @@ $image->resizeToHeight(100);
 
 ### resizeToWidth
 ```php
-/**
- * @param int $width
- * @param bool $increase = true
- * @return static
- */
 $image->resizeToWidth(100);
-// $image->resizeToWidth(1000, true);
+// resizeToWidth(int $width[, bool $increase = true])
 ```
 |original(600x300) |result(100x50) |
 |--------|------|
@@ -188,13 +115,8 @@ $image->resizeToWidth(100);
 
 ### resizeToLongSide
 ```php
-/**
- * @param int $side
- * @param bool $increase = true
- * @return static
- */
 $image->resizeToLongSide(100);
-// $image->resizeToLongSide(1000, true);
+// resizeToLongSide(int $side[, $increase = true])
 ```
 |original(600x300) |result(100x50) |
 |--------|------|
@@ -203,13 +125,8 @@ $image->resizeToLongSide(100);
 
 ### resizeToShortSide
 ```php
-/**
- * @param int $side
- * @param bool $increase = true
- * @return static
- */
 $image->resizeToShortSide(100);
-// $image->resizeToShortSide(1000, true);
+// resizeToShortSide(int $side[, $increase = true])
 ```
 |original(600x300) |result(100x200) |
 |--------|------|
@@ -218,14 +135,8 @@ $image->resizeToShortSide(100);
 
 ### resizeToBestFit
 ```php
-/**
- * @param int $width
- * @param int $height
- * @param bool $increase = true
- * @return static
- */
 $image->resizeToBestFit(100, 100);
-// $image->resizeToBestFit(1000, 1000, true);
+// resizeToBestFit(int $width, int $height[, $increase = true])
 ```
 |original(600x300) |result(100x50) |
 |--------|------|
@@ -233,14 +144,8 @@ $image->resizeToBestFit(100, 100);
 
 ### resizeToWorstFit
 ```php
-/**
- * @param int $width
- * @param int $height
- * @param bool $increase = true
- * @return static
- */
 $image->resizeToWorstFit(100, 100);
-// $image->resizeToWorstFit(1000, 1000, true);
+// resizeToWorstFit(int $width, int $height[, $increase = true])
 ```
 |original(600x300) |result(100x200) |
 |--------|------|
@@ -248,14 +153,8 @@ $image->resizeToWorstFit(100, 100);
 
 ### crop
 ```php
-/**
- * @param int $x
- * @param int $y
- * @param int $width
- * @param int $height
- * @return static
- */
 $image->crop(0, 0, 100, 100);
+// crop(int $x, int $y, int $width, int $height)
 ```
 |original(600x300) |result(100x100) |
 |--------|------|
@@ -263,27 +162,21 @@ $image->crop(0, 0, 100, 100);
 
 ### positions
 ```php
-echo ImageResize::POSITION_CENTER;
-echo ImageResize::POSITION_TOP;
-echo ImageResize::POSITION_RIGHT;
-echo ImageResize::POSITION_BOTTOM;
-echo ImageResize::POSITION_LEFT;
-echo ImageResize::POSITION_TOP_LEFT;
-echo ImageResize::POSITION_TOP_RIGHT;
-echo ImageResize::POSITION_BOTTOM_LEFT;
-echo ImageResize::POSITION_BOTTOM_RIGHT;
+ImageResize::POSITION_CENTER;
+ImageResize::POSITION_TOP;
+ImageResize::POSITION_RIGHT;
+ImageResize::POSITION_BOTTOM;
+ImageResize::POSITION_LEFT;
+ImageResize::POSITION_TOP_LEFT;
+ImageResize::POSITION_TOP_RIGHT;
+ImageResize::POSITION_BOTTOM_LEFT;
+ImageResize::POSITION_BOTTOM_RIGHT;
 ```
 
-### crop
+### cropPosition
 ```php
-/**
- * @param int $width
- * @param int $height
- * @param int $position = ImageResize::POSITION_CENTER
- * @return static
- * @throws ImageResizeBadPositionException
- */
-$image->cropPosition(100, 100, ImageResize::POSITION_CENTER);
+$image->cropPosition(100, 100);
+// cropPosition(int $width, int $height[, int $position = ImageResize::POSITION_CENTER])
 ```
 |original(600x300) |result(100x100) |
 |--------|------|
@@ -291,15 +184,8 @@ $image->cropPosition(100, 100, ImageResize::POSITION_CENTER);
 
 ### resizeCover
 ```php
-/**
- * @param int $width
- * @param int $height
- * @param int $position = ImageResize::POSITION_CENTER
- * @param bool $increase = true
- * @return static
- * @throws ImageResizeBadPositionException
- */
-$image->resizeCover(100, 100, ImageResize::POSITION_CENTER);
+$image->resizeCover(100, 100);
+// resizeCover(int $width, int $height[, int $position = ImageResize::POSITION_CENTER])
 ```
 |original(600x300) |result(100x100) |
 |--------|------|
@@ -307,16 +193,8 @@ $image->resizeCover(100, 100, ImageResize::POSITION_CENTER);
 
 ### resizeContain
 ```php
-/**
- * @param int $width
- * @param int $height
- * @param int $position = ImageResize::POSITION_CENTER
- * @param int $color = 0x000000
- * @param bool $increase = true
- * @return static
- * @throws ImageResizeBadPositionException
- */
-$image->resizeContain(100, 100, ImageResize::POSITION_CENTER, 0x000000);
+$image->resizeContain(100, 100);
+// resizeContain(int $width, int $height[, int $position = ImageResize::POSITION_CENTER[, int $color = 0x000000]])
 ```
 |original(600x300) |result(100x100) |
 |--------|------|
@@ -324,22 +202,17 @@ $image->resizeContain(100, 100, ImageResize::POSITION_CENTER, 0x000000);
 
 ### sides
 ```php
-echo SIDE_TOP;
-echo SIDE_RIGHT;
-echo SIDE_BOTTOM;
-echo SIDE_LEFT;
-echo SIDE_ALL;
+ImageResize::SIDE_TOP;
+ImageResize::SIDE_RIGHT;
+ImageResize::SIDE_BOTTOM;
+ImageResize::SIDE_LEFT;
+ImageResize::SIDE_ALL;
 ```
 
 ### cropEdge
 ```php
-/**
- * @param int $cutLength
- * @param int $side = ImageResize::SIDE_ALL
- * @return static
- */
 $image->cropEdge(50, ImageResize::SIDE_ALL);
-// $image->cropEdge(50, ImageResize::SIDE_TOP | ImageResize::SIDE_BOTTOM);
+// cropEdge(int $cutLength[, int $side = ImageResize::SIDE_ALL])
 ```
 |original(600x300) |result(500x200) |
 |--------|------|
@@ -347,43 +220,38 @@ $image->cropEdge(50, ImageResize::SIDE_ALL);
 
 ### addBorder
 ```php
-/**
- * @param int $borderWidth
- * @param int $side = ImageResize::SIDE_ALL
- * @param int $color = 0x000000
- * @return $this
- */
 $image->addBorder(10);
-// $image->addBorder(10, ImageResize::SIDE_TOP | ImageResize::SIDE_BOTTOM);
+// addBorder(int $borderWidth[, int $side = ImageResize::SIDE_ALL[, int $color = 0x000000]])
 ```
 |original(600x300) |result(620x220) |
 |--------|------|
 |![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/addBorder.jpg)|
 
-### change
 
-fits:
+# Watermark
+Fits:
 ```php
-echo ImageResize::FIT_CANCEL; // cancel if wathermark size grate then $image
-echo ImageResize::FIT_RESIZE; // resize wathermak
-echo ImageResize::FIT_AS_IS; // crop if watermark out of bounds
+ImageResize::FIT_CANCEL; // cancel if wathermark size grate then $image
+ImageResize::FIT_RESIZE; // resize wathermak
+ImageResize::FIT_AS_IS; // crop if watermark out of bounds
 ```
 ```php
 $watermark = ImageResize::createFromPath($path);
-/**
- * @param ImageResize $watermark
- * @param int $position = ImageResize::POSITION_BOTTOM_RIGHT
- * @param int $padding = 16
- * @param int $fit = ImageResize::FIT_AS_IS
- * @return ImageResize
- * @throws ImageResizeBadFitException
- * @throws ImageResizeBadPositionException
- * @throws ImageResizeBadResourceException
- */
 $image->setWatermark($watermark);
-// $image->setWatermark($watermark, ImageResize::POSITION_BOTTOM, 24);
-// $image->setWatermark($watermark, ImageResize::POSITION_CENTER, 16, ImageResize::FIT_RESIZE);
+// setWatermark(ImageResize $watermark[, int $position = ImageResize::POSITION_BOTTOM_RIGHT[, int $padding = 16[, int $fit = ImageResize::FIT_AS_IS]]]);
 ```
 |original(600x300) |result(600x300) |
 |--------|------|
 |![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/setWatermark.jpg)|
+
+### change
+```php
+$image->change(function(&$resource){
+    $resource = imagerotate($resource, 90, 0x000000);
+});
+// change(callable(&$resource) $callback)
+```
+
+# Optimize image
+
+See this package [link](https://github.com/uginroot/image-resize-optimizer)
