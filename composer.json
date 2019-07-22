@@ -3,6 +3,7 @@
     "description": "Image resizing in php",
     "type": "library",
     "license": "MIT",
+    "keywords": ["php", "image", "resize", "crop", "watermark", "orientation"],
     "authors": [
         {
             "name": "Soroka Anton",
