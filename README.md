@@ -31,7 +31,7 @@ ImageCreate::FORMAT_WEBP;
 #### save
 ```php
 $image->save($path);
-// save(string $path[, int $format = ImageCreate::FORMAT_JPEG[, bool $owerwrite = true[, int $mode = 0666]]]):static
+// save(string $path[, int $format = ImageCreate::FORMAT_JPEG[, bool $owerwrite = true[, int $mode = 0666]]])
 ```
 
 #### getContent
