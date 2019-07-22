@@ -131,7 +131,9 @@ $image->resetOrientation();
  */
 $image->scale(50);
 ```
-
+|original(600x300) |result(300x150) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/scale.jpg)|
 
 ### resize
 ```php
@@ -144,6 +146,9 @@ $image->scale(50);
 $image->resize(100, 100);
 $image->resize(1000, 1000, true);
 ```
+|original(600x300) |result(100x100) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/resize.jpg)|
 
 
 ### resizeToHeight
@@ -156,6 +161,9 @@ $image->resize(1000, 1000, true);
 $image->resizeToHeight(100);
 $image->resizeToHeight(1000, true);
 ```
+|original(600x300) |result(100x200) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/resizeToHeight.jpg)|
 
 
 ### resizeToWidth
@@ -168,6 +176,9 @@ $image->resizeToHeight(1000, true);
 $image->resizeToWidth(100);
 $image->resizeToWidth(1000, true);
 ```
+|original(600x300) |result(100x50) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/resizeToWidth.jpg)|
 
 
 ### resizeToLongSide
@@ -180,6 +191,9 @@ $image->resizeToWidth(1000, true);
 $image->resizeToLongSide(100);
 $image->resizeToLongSide(1000, true);
 ```
+|original(600x300) |result(100x50) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/resizeToLongSide.jpg)|
 
 
 ### resizeToShortSide
@@ -192,6 +206,9 @@ $image->resizeToLongSide(1000, true);
 $image->resizeToShortSide(100);
 $image->resizeToShortSide(1000, true);
 ```
+|original(600x300) |result(100x200) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/resizeToShortSide.jpg)|
 
 
 ### resizeToBestFit
@@ -205,7 +222,9 @@ $image->resizeToShortSide(1000, true);
 $image->resizeToBestFit(100, 100);
 $image->resizeToBestFit(1000, 1000, true);
 ```
-
+|original(600x300) |result(100x50) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/resizeToBestFit.jpg)|
 
 ### resizeToWorstFit
 ```php
@@ -218,7 +237,9 @@ $image->resizeToBestFit(1000, 1000, true);
 $image->resizeToWorstFit(100, 100);
 $image->resizeToWorstFit(1000, 1000, true);
 ```
-
+|original(600x300) |result(100x200) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/resizeToWorstFit.jpg)|
 
 ### crop
 ```php
@@ -231,6 +252,9 @@ $image->resizeToWorstFit(1000, 1000, true);
  */
 $image->crop(0, 0, 100, 100);
 ```
+|original(600x300) |result(100x100) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/crop.jpg)|
 
 ### positions
 ```php
@@ -256,6 +280,9 @@ echo ImageResize::POSITION_BOTTOM_RIGHT;
  */
 $image->cropPosition(100, 100, ImageResize::POSITION_CENTER);
 ```
+|original(600x300) |result(100x100) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/cropPosition.jpg)|
 
 ### resizeCover
 ```php
@@ -269,6 +296,9 @@ $image->cropPosition(100, 100, ImageResize::POSITION_CENTER);
  */
 $image->resizeCover(100, 100, ImageResize::POSITION_CENTER);
 ```
+|original(600x300) |result(100x100) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/resizeCover.jpg)|
 
 ### resizeContain
 ```php
@@ -283,6 +313,9 @@ $image->resizeCover(100, 100, ImageResize::POSITION_CENTER);
  */
 $image->resizeContain(100, 100, ImageResize::POSITION_CENTER, 0x000000);
 ```
+|original(600x300) |result(100x100) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/resizeContain.jpg)|
 
 ### sides
 ```php
@@ -303,6 +336,9 @@ echo SIDE_ALL;
 $image->cropEdge(50, ImageResize::SIDE_ALL);
 $image->cropEdge(50, ImageResize::SIDE_TOP | ImageResize::SIDE_BOTTOM);
 ```
+|original(600x300) |result(500x200) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/cropEdge.jpg)|
 
 ### addBorder
 ```php
@@ -315,6 +351,9 @@ $image->cropEdge(50, ImageResize::SIDE_TOP | ImageResize::SIDE_BOTTOM);
 $image->addBorder(10, ImageResize::SIDE_ALL, 0x000000);
 $image->addBorder(10, ImageResize::SIDE_TOP | ImageResize::SIDE_BOTTOM);
 ```
+|original(600x300) |result(620x220) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/addBorder.jpg)|
 
 ### change
 
@@ -340,4 +379,6 @@ $image->setWatermark($watermark);
 $image->setWatermark($watermark, ImageResize::POSITION_BOTTOM, 24);
 $image->setWatermark($watermark, ImageResize::POSITION_CENTER, 16, ImageResize::FIT_RESIZE);
 ```
-
+|original(600x300) |result(600x300) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/setWatermark.jpg)|
