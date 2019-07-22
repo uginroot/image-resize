@@ -1,8 +1,8 @@
-# install
+# Install
 ```bash
 composer require uginroot/image-resize:^1.0.1
 ```
-#Create
+# Create
 #### createFromString
 ```php
 $image = ImageResize::createFromString(file_get_content($path));
