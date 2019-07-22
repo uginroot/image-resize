@@ -31,7 +31,7 @@ ImageCreate::FORMAT_WEBP;
 #### save
 ```php
 $image->save($path);
-// save(string $path[, int $format = ImageCreate::FORMAT_JPEG[, bool $owerwrite = true[, int $mode = 0666]]])
+// save(string $path [, int $format = ImageCreate::FORMAT_JPEG [, bool $owerwrite = false [, int $mode = 0666]]])
 ```
 
 #### getContent
@@ -86,7 +86,7 @@ $image->scale(50);
 ### resize
 ```php
 $image->resize(100, 100);
-// resize(int $width, int $heihht[, bool $increase = true])
+// resize(int $width, int $heihht [, bool $increase = true])
 ```
 |original(600x300) |result(100x100) |
 |--------|------|
@@ -96,7 +96,7 @@ $image->resize(100, 100);
 ### resizeToHeight
 ```php
 $image->resizeToHeight(100);
-// resizeToHeight(int $height[, bool $increase = true])
+// resizeToHeight(int $height [, bool $increase = true])
 ```
 |original(600x300) |result(100x200) |
 |--------|------|
@@ -106,7 +106,7 @@ $image->resizeToHeight(100);
 ### resizeToWidth
 ```php
 $image->resizeToWidth(100);
-// resizeToWidth(int $width[, bool $increase = true])
+// resizeToWidth(int $width [, bool $increase = true])
 ```
 |original(600x300) |result(100x50) |
 |--------|------|
@@ -116,7 +116,7 @@ $image->resizeToWidth(100);
 ### resizeToLongSide
 ```php
 $image->resizeToLongSide(100);
-// resizeToLongSide(int $side[, $increase = true])
+// resizeToLongSide(int $side [, $increase = true])
 ```
 |original(600x300) |result(100x50) |
 |--------|------|
@@ -126,7 +126,7 @@ $image->resizeToLongSide(100);
 ### resizeToShortSide
 ```php
 $image->resizeToShortSide(100);
-// resizeToShortSide(int $side[, $increase = true])
+// resizeToShortSide(int $side [, $increase = true])
 ```
 |original(600x300) |result(100x200) |
 |--------|------|
@@ -136,7 +136,7 @@ $image->resizeToShortSide(100);
 ### resizeToBestFit
 ```php
 $image->resizeToBestFit(100, 100);
-// resizeToBestFit(int $width, int $height[, $increase = true])
+// resizeToBestFit(int $width, int $height [, $increase = true])
 ```
 |original(600x300) |result(100x50) |
 |--------|------|
@@ -145,7 +145,7 @@ $image->resizeToBestFit(100, 100);
 ### resizeToWorstFit
 ```php
 $image->resizeToWorstFit(100, 100);
-// resizeToWorstFit(int $width, int $height[, $increase = true])
+// resizeToWorstFit(int $width, int $height [, $increase = true])
 ```
 |original(600x300) |result(100x200) |
 |--------|------|
@@ -176,7 +176,7 @@ ImageResize::POSITION_BOTTOM_RIGHT;
 ### cropPosition
 ```php
 $image->cropPosition(100, 100);
-// cropPosition(int $width, int $height[, int $position = ImageResize::POSITION_CENTER])
+// cropPosition(int $width, int $height [, int $position = ImageResize::POSITION_CENTER])
 ```
 |original(600x300) |result(100x100) |
 |--------|------|
@@ -185,7 +185,7 @@ $image->cropPosition(100, 100);
 ### resizeCover
 ```php
 $image->resizeCover(100, 100);
-// resizeCover(int $width, int $height[, int $position = ImageResize::POSITION_CENTER])
+// resizeCover(int $width, int $height [, int $position = ImageResize::POSITION_CENTER])
 ```
 |original(600x300) |result(100x100) |
 |--------|------|
@@ -194,7 +194,7 @@ $image->resizeCover(100, 100);
 ### resizeContain
 ```php
 $image->resizeContain(100, 100);
-// resizeContain(int $width, int $height[, int $position = ImageResize::POSITION_CENTER[, int $color = 0x000000]])
+// resizeContain(int $width, int $height [, int $position = ImageResize::POSITION_CENTER [, int $color = 0x000000]])
 ```
 |original(600x300) |result(100x100) |
 |--------|------|
@@ -212,7 +212,7 @@ ImageResize::SIDE_ALL;
 ### cropEdge
 ```php
 $image->cropEdge(50, ImageResize::SIDE_ALL);
-// cropEdge(int $cutLength[, int $side = ImageResize::SIDE_ALL])
+// cropEdge(int $cutLength [, int $side = ImageResize::SIDE_ALL])
 ```
 |original(600x300) |result(500x200) |
 |--------|------|
@@ -221,7 +221,7 @@ $image->cropEdge(50, ImageResize::SIDE_ALL);
 ### addBorder
 ```php
 $image->addBorder(10);
-// addBorder(int $borderWidth[, int $side = ImageResize::SIDE_ALL[, int $color = 0x000000]])
+// addBorder(int $borderWidth [, int $side = ImageResize::SIDE_ALL [, int $color = 0x000000]])
 ```
 |original(600x300) |result(620x220) |
 |--------|------|
@@ -238,7 +238,7 @@ ImageResize::FIT_AS_IS; // crop if watermark out of bounds
 ```php
 $watermark = ImageResize::createFromPath($path);
 $image->setWatermark($watermark);
-// setWatermark(ImageResize $watermark[, int $position = ImageResize::POSITION_BOTTOM_RIGHT[, int $padding = 16[, int $fit = ImageResize::FIT_AS_IS]]]);
+// setWatermark(ImageResize $watermark [, int $position = ImageResize::POSITION_BOTTOM_RIGHT [, int $padding = 16 [, int $fit = ImageResize::FIT_AS_IS]]]);
 ```
 |original(600x300) |result(600x300) |
 |--------|------|
