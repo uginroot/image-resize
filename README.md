@@ -1,6 +1,11 @@
 # image-resize
 Image resizing in php
 
+### install
+```bash
+composer require uginroot/image-resize
+```
+
 ### createFromString
 ```php
 /**
