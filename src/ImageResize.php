@@ -778,12 +778,13 @@ class ImageResize
 
     /**
      * @param callable $callback
+     * @return ImageResize
      */
-    public function change(callable $callback): void
+    public function change(callable $callback)
     {
         $callback($this->image);
         $this->updateImageSize();
-        imagerotate($this->image, 90, 0xffffff);
+        return $this;
     }
 
 

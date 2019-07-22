@@ -1154,8 +1154,8 @@ class ImageResizeTest extends TestCase
 
 
         $image = ImageResize::createFromPath(__DIR__ . '/../docs/horizontal.jpg');
-        $image->change(function($resource){
-            imagerotate($resource, 90, 0x000000);
+        $image->change(function(&$resource){
+            $resource = imagerotate($resource, 90, 0);
         });
         $image->save(__DIR__ . '/../docs/result/change.jpg', ImageResize::FORMAT_JPEG, true);
 
