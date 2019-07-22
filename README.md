@@ -251,6 +251,9 @@ $image->change(function(&$resource){
 });
 // change(callable(&$resource) $callback)
 ```
+|original(600x300) |result(300x600) |
+|--------|------|
+|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/change.jpg)|
 
 # Optimize image
 
