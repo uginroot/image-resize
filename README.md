@@ -34,6 +34,9 @@ $image->save($path);
 // save(string $path [, int $format = ImageCreate::FORMAT_JPEG [, bool $owerwrite = false [, int $mode = 0666]]])
 ```
 
+#### Optimize image
+See this package [link](https://github.com/uginroot/image-resize-optimizer)
+
 #### getContent
 ```php
 echo $image->getContent();
@@ -255,6 +258,3 @@ $image->change(function(&$resource){
 |--------|------|
 |![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/horizontal.jpg)|![](https://raw.githubusercontent.com/uginroot/image-resize/master/docs/result/change.jpg)|
 
-# Optimize image
-
-See this package [link](https://github.com/uginroot/image-resize-optimizer)
