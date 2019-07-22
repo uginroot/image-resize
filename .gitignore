@@ -1,3 +1,4 @@
 # IDE
 /.idea
 /vendor/
+/.phpunit.result.cache
