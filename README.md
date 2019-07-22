@@ -144,7 +144,7 @@ $image->scale(50);
  * @return static
  */
 $image->resize(100, 100);
-$image->resize(1000, 1000, true);
+// $image->resize(1000, 1000, true);
 ```
 |original(600x300) |result(100x100) |
 |--------|------|
@@ -159,7 +159,7 @@ $image->resize(1000, 1000, true);
  * @return static
  */
 $image->resizeToHeight(100);
-$image->resizeToHeight(1000, true);
+// $image->resizeToHeight(1000, true);
 ```
 |original(600x300) |result(100x200) |
 |--------|------|
@@ -174,7 +174,7 @@ $image->resizeToHeight(1000, true);
  * @return static
  */
 $image->resizeToWidth(100);
-$image->resizeToWidth(1000, true);
+// $image->resizeToWidth(1000, true);
 ```
 |original(600x300) |result(100x50) |
 |--------|------|
@@ -189,7 +189,7 @@ $image->resizeToWidth(1000, true);
  * @return static
  */
 $image->resizeToLongSide(100);
-$image->resizeToLongSide(1000, true);
+// $image->resizeToLongSide(1000, true);
 ```
 |original(600x300) |result(100x50) |
 |--------|------|
@@ -204,7 +204,7 @@ $image->resizeToLongSide(1000, true);
  * @return static
  */
 $image->resizeToShortSide(100);
-$image->resizeToShortSide(1000, true);
+// $image->resizeToShortSide(1000, true);
 ```
 |original(600x300) |result(100x200) |
 |--------|------|
@@ -220,7 +220,7 @@ $image->resizeToShortSide(1000, true);
  * @return static
  */
 $image->resizeToBestFit(100, 100);
-$image->resizeToBestFit(1000, 1000, true);
+// $image->resizeToBestFit(1000, 1000, true);
 ```
 |original(600x300) |result(100x50) |
 |--------|------|
@@ -235,7 +235,7 @@ $image->resizeToBestFit(1000, 1000, true);
  * @return static
  */
 $image->resizeToWorstFit(100, 100);
-$image->resizeToWorstFit(1000, 1000, true);
+// $image->resizeToWorstFit(1000, 1000, true);
 ```
 |original(600x300) |result(100x200) |
 |--------|------|
@@ -334,7 +334,7 @@ echo SIDE_ALL;
  * @return static
  */
 $image->cropEdge(50, ImageResize::SIDE_ALL);
-$image->cropEdge(50, ImageResize::SIDE_TOP | ImageResize::SIDE_BOTTOM);
+// $image->cropEdge(50, ImageResize::SIDE_TOP | ImageResize::SIDE_BOTTOM);
 ```
 |original(600x300) |result(500x200) |
 |--------|------|
@@ -348,8 +348,8 @@ $image->cropEdge(50, ImageResize::SIDE_TOP | ImageResize::SIDE_BOTTOM);
  * @param int $color = 0x000000
  * @return $this
  */
-$image->addBorder(10, ImageResize::SIDE_ALL, 0x000000);
-$image->addBorder(10, ImageResize::SIDE_TOP | ImageResize::SIDE_BOTTOM);
+$image->addBorder(10);
+// $image->addBorder(10, ImageResize::SIDE_TOP | ImageResize::SIDE_BOTTOM);
 ```
 |original(600x300) |result(620x220) |
 |--------|------|
@@ -376,8 +376,8 @@ $watermark = ImageResize::createFromPath($path);
  * @throws ImageResizeBadResourceException
  */
 $image->setWatermark($watermark);
-$image->setWatermark($watermark, ImageResize::POSITION_BOTTOM, 24);
-$image->setWatermark($watermark, ImageResize::POSITION_CENTER, 16, ImageResize::FIT_RESIZE);
+// $image->setWatermark($watermark, ImageResize::POSITION_BOTTOM, 24);
+// $image->setWatermark($watermark, ImageResize::POSITION_CENTER, 16, ImageResize::FIT_RESIZE);
 ```
 |original(600x300) |result(600x300) |
 |--------|------|
