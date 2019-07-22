@@ -2,7 +2,7 @@
     "name": "uginroot/image-resize",
     "description": "Image resizing in php",
     "type": "library",
-    "license": "GNU GENERAL PUBLIC LICENSE",
+    "license": "MIT",
     "authors": [
         {
             "name": "Soroka Anton",
