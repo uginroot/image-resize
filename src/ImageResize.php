@@ -62,6 +62,21 @@ class ImageResize
     private $height;
 
     /**
+     * @var int
+     */
+    private $qualityJpeg = -1;
+
+    /**
+     * @var int
+     */
+    private $qualityPng = -1;
+
+    /**
+     * @var int
+     */
+    private $filtersPng = -1;
+
+    /**
      * @param string $content
      * @return static
      * @throws ImageResizeBadContentException
@@ -113,10 +128,10 @@ class ImageResize
         }
         switch ($format) {
             case static::FORMAT_JPEG:
-                imagejpeg($this->image, $path);
+                imagejpeg($this->image, $path, $this->qualityJpeg);
                 break;
             case static::FORMAT_PNG:
-                imagepng($this->image, $path);
+                imagepng($this->image, $path, $this->qualityPng, $this->filtersPng);
                 break;
             case static::FORMAT_WEBP:
                 imagewbmp($this->image, $path);
@@ -162,10 +177,10 @@ class ImageResize
         $stream = fopen("php://memory", "w+");
         switch ($format) {
             case static::FORMAT_JPEG:
-                imagejpeg($this->image, $stream);
+                imagejpeg($this->image, $stream, $this->qualityJpeg);
                 break;
             case static::FORMAT_PNG:
-                imagepng($this->image, $stream);
+                imagepng($this->image, $stream, $this->filtersPng, $this->filtersPng);
                 break;
             case static::FORMAT_WEBP:
                 imagewbmp($this->image, $stream);
@@ -189,10 +204,10 @@ class ImageResize
     {
         switch ($format) {
             case static::FORMAT_JPEG:
-                imagejpeg($this->image);
+                imagejpeg($this->image, null, $this->qualityJpeg);
                 break;
             case static::FORMAT_PNG:
-                imagepng($this->image);
+                imagepng($this->image, null, $this->filtersPng, $this->filtersPng);
                 break;
             case static::FORMAT_WEBP:
                 imagewbmp($this->image);
@@ -904,6 +919,60 @@ class ImageResize
             $watermark->getWidth(), $watermark->getHeight()
         );
 
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getQualityJpeg(): int
+    {
+        return $this->qualityJpeg;
+    }
+
+    /**
+     * @param int $qualityJpeg
+     * @return static
+     */
+    public function setQualityJpeg(int $qualityJpeg)
+    {
+        $this->qualityJpeg = $qualityJpeg;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getQualityPng(): int
+    {
+        return $this->qualityPng;
+    }
+
+    /**
+     * @param int $qualityPng
+     * @return static
+     */
+    public function setQualityPng(int $qualityPng)
+    {
+        $this->qualityPng = $qualityPng;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFiltersPng(): int
+    {
+        return $this->filtersPng;
+    }
+
+    /**
+     * @param int $filtersPng
+     * @return static
+     */
+    public function setFiltersPng(int $filtersPng)
+    {
+        $this->filtersPng = $filtersPng;
         return $this;
     }
 }
