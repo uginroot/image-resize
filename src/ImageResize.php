@@ -2,6 +2,7 @@
 
 namespace Uginroot;
 
+use Exception\ImageResizeImpossibleToCreateDirectoryException;
 use Uginroot\Exception\ImageResizeBadColorException;
 use Uginroot\Exception\ImageResizeBadFormatException;
 use Uginroot\Exception\ImageResizeBadPositionException;
@@ -116,6 +117,7 @@ class ImageResize
      * @return static
      * @throws ImageResizeBadFormatException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws ImageResizeImpossibleToCreateDirectoryException
      */
     public function save(string $path, int $format = self::FORMAT_JPEG, $overwrite = false, int $mode = 0666)
     {
@@ -124,6 +126,11 @@ class ImageResize
                 @unlink($path);
             } else {
                 throw new ImageResizeFileAlreadyExistException();
+            }
+        }
+        if(!is_dir(dirname($path))){
+            if(!@mkdir(dirname($path), 0777, true)){
+                throw new ImageResizeImpossibleToCreateDirectoryException();
             }
         }
         switch ($format) {

@@ -82,6 +82,7 @@ class ImageResizeTest extends TestCase
      * @param int $format
      * @throws ImageResizeBadFormatException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     private function save(ImageResize $imageResize, string $path, int $format = ImageResize::FORMAT_PNG)
     {
@@ -125,6 +126,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeBadFormatException
      * @throws ImageResizeBadResourceException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testWidthHeight()
     {
@@ -182,6 +184,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeBadFormatException
      * @throws ImageResizeBadResourceException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testResize()
     {
@@ -206,6 +209,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeBadFormatException
      * @throws ImageResizeBadResourceException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testResizeToWidth()
     {
@@ -220,6 +224,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeBadFormatException
      * @throws ImageResizeBadResourceException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testResizeToHeight()
     {
@@ -235,6 +240,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeBadFormatException
      * @throws ImageResizeBadResourceException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testResizeToBestFit()
     {
@@ -256,6 +262,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeBadFormatException
      * @throws ImageResizeBadResourceException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testResizeToWorstFit()
     {
@@ -277,6 +284,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeBadFormatException
      * @throws ImageResizeBadResourceException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testResizeToLongSide()
     {
@@ -291,6 +299,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeBadFormatException
      * @throws ImageResizeBadResourceException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testResizeToShortSide()
     {
@@ -306,6 +315,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeBadPositionException
      * @throws ImageResizeBadResourceException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testCropPosition()
     {
@@ -455,6 +465,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeBadPositionException
      * @throws ImageResizeBadResourceException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testResizeCover()
     {
@@ -535,6 +546,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeBadPositionException
      * @throws ImageResizeBadResourceException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testResizeContain()
     {
@@ -668,6 +680,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeBadFormatException
      * @throws ImageResizeBadResourceException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testCropEdge()
     {
@@ -758,6 +771,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeBadFormatException
      * @throws ImageResizeBadResourceException
      * @throws ImageResizeFileAlreadyExistException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testAddBorder()
     {
@@ -850,6 +864,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeFileAlreadyExistException
      * @throws ImageResizeFileNotExistException
      * @throws ImageResizeNotSupportResetOrientationException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testResetOrientation()
     {
@@ -958,6 +973,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeFileAlreadyExistException
      * @throws ImageResizeFileNotExistException
      * @throws \Uginroot\Exception\ImageResizeBadFitException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testWatermark()
     {
@@ -1065,6 +1081,7 @@ class ImageResizeTest extends TestCase
      * @throws ImageResizeFileNotExistException
      * @throws ImageResizeBadPositionException
      * @throws \Uginroot\Exception\ImageResizeBadFitException
+     * @throws Exception\ImageResizeImpossibleToCreateDirectoryException
      */
     public function testDocs()
     {
