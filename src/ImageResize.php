@@ -108,6 +108,28 @@ class ImageResize
         return static::createFromString($content);
     }
 
+    /**
+     * @param $output
+     * @param int $format
+     * @throws ImageResizeBadFormatException
+     */
+    protected function save_($output, int $format)
+    {
+        switch ($format) {
+            case static::FORMAT_JPEG:
+                imagejpeg($this->image, $output, $this->qualityJpeg);
+                break;
+            case static::FORMAT_PNG:
+                imagepng($this->image, $output, $this->qualityPng, $this->filtersPng);
+                break;
+            case static::FORMAT_WEBP:
+                imagewbmp($this->image, $output);
+                break;
+            default:
+                throw new ImageResizeBadFormatException();
+        }
+    }
+
 
     /**
      * @param string $path
@@ -128,24 +150,13 @@ class ImageResize
                 throw new ImageResizeFileAlreadyExistException();
             }
         }
-        if(!is_dir(dirname($path))){
-            if(!@mkdir(dirname($path), 0777, true)){
+        if (!is_dir(dirname($path))) {
+            if (!@mkdir(dirname($path), 0777, true)) {
                 throw new ImageResizeImpossibleToCreateDirectoryException();
             }
         }
-        switch ($format) {
-            case static::FORMAT_JPEG:
-                imagejpeg($this->image, $path, $this->qualityJpeg);
-                break;
-            case static::FORMAT_PNG:
-                imagepng($this->image, $path, $this->qualityPng, $this->filtersPng);
-                break;
-            case static::FORMAT_WEBP:
-                imagewbmp($this->image, $path);
-                break;
-            default:
-                throw new ImageResizeBadFormatException();
-        }
+
+        $this->save_($path, $format);
 
         chmod($path, $mode);
 
@@ -168,10 +179,8 @@ class ImageResize
             throw new ImageResizeBadResourceException('Expected gd resource from parameter $image');
         }
 
-        $this->image = $image;
         $this->content = $content;
-        $this->width = imagesx($this->image);
-        $this->height = imagesy($this->image);
+        $this->setImage($image);
     }
 
     /**
@@ -182,20 +191,7 @@ class ImageResize
     public function getContent(int $format = self::FORMAT_JPEG)
     {
         $stream = fopen("php://memory", "w+");
-        switch ($format) {
-            case static::FORMAT_JPEG:
-                imagejpeg($this->image, $stream, $this->qualityJpeg);
-                break;
-            case static::FORMAT_PNG:
-                imagepng($this->image, $stream, $this->filtersPng, $this->filtersPng);
-                break;
-            case static::FORMAT_WEBP:
-                imagewbmp($this->image, $stream);
-                break;
-            default:
-                fclose($stream);
-                throw new ImageResizeBadFormatException();
-        }
+        $this->save_($stream, $format);
         rewind($stream);
         $content = stream_get_contents($stream);
         fclose($stream);
@@ -207,21 +203,9 @@ class ImageResize
      * @return void
      * @throws ImageResizeBadFormatException
      */
-    public function print(int $format = self::FORMAT_JPEG):void
+    public function print(int $format = self::FORMAT_JPEG): void
     {
-        switch ($format) {
-            case static::FORMAT_JPEG:
-                imagejpeg($this->image, null, $this->qualityJpeg);
-                break;
-            case static::FORMAT_PNG:
-                imagepng($this->image, null, $this->filtersPng, $this->filtersPng);
-                break;
-            case static::FORMAT_WEBP:
-                imagewbmp($this->image);
-                break;
-            default:
-                throw new ImageResizeBadFormatException();
-        }
+        $this->save_(null, $format);
     }
 
 
@@ -345,9 +329,7 @@ class ImageResize
             $width, $height,
             $this->width, $this->height
         );
-        $this->image = $image;
-        $this->updateImageSize();
-        return $this;
+        return $this->setImage($image);
     }
 
     /**
@@ -439,6 +421,17 @@ class ImageResize
     }
 
     /**
+     * @param resource $image
+     * @return static
+     */
+    protected function setImage($image)
+    {
+        $this->image = $image;
+        $this->updateImageSize();
+        return $this;
+    }
+
+    /**
      * @param int $x
      * @param int $y
      * @param int $width
@@ -475,9 +468,7 @@ class ImageResize
             $height,
             $width, $height
         );
-        $this->image = $image;
-        $this->updateImageSize();
-        return $this;
+        return $this->setImage($image);
     }
 
     /**
@@ -492,18 +483,35 @@ class ImageResize
         if ($height > $this->height && $width > $this->width) {
             return $this;
         }
+        [$x, $y] = $this->calculatePosition($position, $width, $height);
+        return $this->crop($x, $y, $width, $height);
+    }
 
-        if ($height > $this->height) {
-            $height = $this->height;
-        }
-        if ($width > $this->width) {
-            $width = $this->width;
+    /**
+     * @param int $position
+     * @param int $width
+     * @param int $height
+     * @param int $padding
+     * @param bool $overflowResize
+     * @return array = [0 => int, 1 => int]
+     * @throws ImageResizeBadPositionException
+     */
+    protected function calculatePosition(int $position, int $width, int $height, int $padding = 0, bool $overflowResize = true)
+    {
+        if($overflowResize){
+            if ($width > $this->width + $padding) {
+                $width = $this->width - $padding;
+            }
+            if ($height > $this->height + $padding) {
+                $height = $this->height - $padding;
+            }
         }
 
-        $xCenter = round($this->width / 2 - $width / 2);
-        $yCenter = round($this->height / 2 - $height / 2);
-        $xMax = $this->width - $width;
-        $yMax = $this->height - $height;
+        $xCenter = round($this->getWidth() / 2 - $width / 2);
+        $yCenter = round($this->getHeight() / 2 - $height / 2);
+        $xMax = $this->getWidth() - $padding - $width;
+        $yMax = $this->getHeight() - $padding - $height;
+        $xMin = $yMin = $padding;
 
         switch ($position) {
             case static::POSITION_CENTER:
@@ -512,7 +520,7 @@ class ImageResize
                 break;
             case static::POSITION_TOP:
                 $x = $xCenter;
-                $y = 0;
+                $y = $yMin;
                 break;
             case static::POSITION_RIGHT:
                 $x = $xMax;
@@ -523,19 +531,19 @@ class ImageResize
                 $y = $yMax;
                 break;
             case static::POSITION_LEFT:
-                $x = 0;
+                $x = $xMin;
                 $y = $yCenter;
                 break;
             case static::POSITION_TOP_LEFT:
-                $x = 0;
-                $y = 0;
+                $x = $xMin;
+                $y = $yMin;
                 break;
             case static::POSITION_TOP_RIGHT:
                 $x = $xMax;
-                $y = 0;
+                $y = $yMin;
                 break;
             case static::POSITION_BOTTOM_LEFT:
-                $x = 0;
+                $x = $xMin;
                 $y = $yMax;
                 break;
             case static::POSITION_BOTTOM_RIGHT:
@@ -545,8 +553,7 @@ class ImageResize
             default:
                 throw new ImageResizeBadPositionException();
         }
-
-        return $this->crop($x, $y, $width, $height);
+        return [$x, $y];
     }
 
     /**
@@ -562,6 +569,19 @@ class ImageResize
         $this->resizeToWorstFit($width, $height, $increase);
         $this->cropPosition($width, $height, $position);
         return $this;
+    }
+
+    /**
+     * @param int $width
+     * @param int $height
+     * @param int $color
+     * @return resource
+     */
+    protected static function createBackground(int $width, int $height, int $color)
+    {
+        $image = imagecreatetruecolor($width, $height);
+        imagefill($image, 0, 0, $color);
+        return $image;
     }
 
     /**
@@ -590,8 +610,7 @@ class ImageResize
         }
 
         // create background
-        $image = imagecreatetruecolor($width, $height);
-        imagefill($image, 0, 0, $color);
+        $image = static::createBackground($width, $height, $color);
 
 
         // coordinate paste image to background
@@ -631,18 +650,24 @@ class ImageResize
             }
         }
 
-        // paste image
+        return $this->pasteImage($image, $x, $y);
+    }
+
+    /**
+     * @param $image
+     * @param $x
+     * @param $y
+     * @return ImageResize
+     */
+    protected function pasteImage($image, $x, $y)
+    {
         imagecopy(
             $image, $this->image,
             $x, $y,
             0, 0,
             $this->getWidth(), $this->getHeight()
         );
-
-        $this->image = $image;
-        $this->updateImageSize();
-
-        return $this;
+        return $this->setImage($image);
     }
 
 
@@ -650,32 +675,17 @@ class ImageResize
      * @param int $red
      * @param int $green
      * @param int $blue
+     * @param int|null $alpha
      * @return int
      * @throws ImageResizeBadColorException
      */
-    public function createColor(int $red = 0, int $green = 0, int $blue = 0)
+    public function createColor(int $red = 0, int $green = 0, int $blue = 0, int $alpha = null)
     {
-        $color = @imagecolorallocate($this->image, $red, $green, $blue);
-
-        if ($color === false) {
-            throw new ImageResizeBadColorException();
+        if ($alpha === null) {
+            $color = @imagecolorallocate($this->image, $red, $green, $blue);
+        } else {
+            $color = @imagecolorallocatealpha($this->image, $red, $green, $blue, $alpha);
         }
-
-        return $color;
-    }
-
-
-    /**
-     * @param int $red
-     * @param int $green
-     * @param int $blue
-     * @param int $alpha
-     * @return int
-     * @throws ImageResizeBadColorException
-     */
-    public function createColorAlpha(int $red = 0, int $green = 0, int $blue = 0, int $alpha = 127)
-    {
-        $color = @imagecolorallocatealpha($this->image, $red, $green, $blue, $alpha);
 
         if ($color === false) {
             throw new ImageResizeBadColorException();
@@ -691,10 +701,7 @@ class ImageResize
      */
     public function createColorFromInt(int $color = 0x000000)
     {
-        $red = ($color & 0xff0000) >> 16;
-        $green = ($color & 0x00ff00) >> 8;
-        $blue = $color & 0x0000ff;
-
+        [$red, $green, $blue] = $this->unpackColor($color);
         return $this->createColor($red, $green, $blue);
     }
 
@@ -706,11 +713,18 @@ class ImageResize
      */
     public function createColorAlphaFromInt(int $color = 0x000000, int $alpha = 255)
     {
+        [$red, $green, $blue] = $this->unpackColor($color);
+        $alpha = round(127 / 255 * $alpha);
+        return $this->createColor($red, $green, $blue, $alpha);
+    }
+
+    protected function unpackColor(int $color)
+    {
         $red = ($color & 0xff0000) >> 16;
         $green = ($color & 0x00ff00) >> 8;
         $blue = $color & 0x0000ff;
-        $alpha = round(127 / 255 * $alpha);
-        return $this->createColorAlpha($red, $green, $blue, $alpha);
+
+        return [$red, $green, $blue];
     }
 
 
@@ -722,8 +736,7 @@ class ImageResize
     public function cropEdge(int $cutLength, int $side = self::SIDE_ALL)
     {
 
-        $x = 0;
-        $y = 0;
+        $x = $y = 0;
         $width = $this->getWidth();
         $height = $this->getHeight();
 
@@ -756,8 +769,7 @@ class ImageResize
      */
     public function addBorder(int $borderWidth, int $side = self::SIDE_ALL, int $color = 0x000000)
     {
-        $x = 0;
-        $y = 0;
+        $x = $y = 0;
         $width = $this->getWidth();
         $height = $this->getHeight();
 
@@ -779,22 +791,9 @@ class ImageResize
             $height += $borderWidth;
         }
 
-        // create background
-        $image = imagecreatetruecolor($width, $height);
-        imagefill($image, 0, 0, $color);
+        $image = static::createBackground($width, $height, $color);
 
-        // paste image
-        imagecopy(
-            $image, $this->image,
-            $x, $y,
-            0, 0,
-            $this->getWidth(), $this->getHeight()
-        );
-
-        $this->image = $image;
-        $this->updateImageSize();
-
-        return $this;
+        return $this->pasteImage($image, $x, $y);
     }
 
 
@@ -822,60 +821,23 @@ class ImageResize
      */
     public function setWatermark(ImageResize $watermark, int $position = self::POSITION_BOTTOM_RIGHT, int $padding = 16, int $fit = self::FIT_AS_IS)
     {
-        $xCenter = round($this->getWidth() / 2 - $watermark->getWidth() / 2);
-        $yCenter = round($this->getHeight() / 2 - $watermark->getHeight() / 2);
-        $xMax = $this->getWidth() - $padding - $watermark->getWidth();
-        $yMax = $this->getHeight() - $padding - $watermark->getHeight();
 
-        switch ($position) {
-            case static::POSITION_CENTER:
-                $x = $xCenter;
-                $y = $yCenter;
-                break;
-            case static::POSITION_TOP:
-                $x = $xCenter;
-                $y = $padding;
-                break;
-            case static::POSITION_RIGHT:
-                $x = $xMax;
-                $y = $yCenter;
-                break;
-            case static::POSITION_BOTTOM:
-                $x = $xCenter;
-                $y = $yMax;
-                break;
-            case static::POSITION_LEFT:
-                $x = $padding;
-                $y = $yCenter;
-                break;
-            case static::POSITION_TOP_LEFT:
-                $x = $padding;
-                $y = $padding;
-                break;
-            case static::POSITION_TOP_RIGHT:
-                $x = $xMax;
-                $y = $padding;
-                break;
-            case static::POSITION_BOTTOM_LEFT:
-                $x = $padding;
-                $y = $yMax;
-                break;
-            case static::POSITION_BOTTOM_RIGHT:
-                $x = $xMax;
-                $y = $yMax;
-                break;
-            default:
-                throw new ImageResizeBadPositionException();
-        }
+        [$x, $y] = $this->calculatePosition(
+            $position,
+            $watermark->getWidth(),
+            $watermark->getHeight(),
+            $padding,
+            false
+        );
 
         // watermark does not fit
-        if(
+        if (
             $x < 0 ||
             $y < 0 ||
             $x + $watermark->getWidth() > $this->getWidth() - $padding ||
             $y + $watermark->getHeight() > $this->getHeight() - $padding
-        ){
-            switch ($fit){
+        ) {
+            switch ($fit) {
                 case static::FIT_CANCEL:
                     return $this;
                 case static::FIT_RESIZE:
@@ -884,30 +846,30 @@ class ImageResize
                     return $this->setWatermark($watermark, $position, $padding, $fit);
                 case static::FIT_AS_IS:
 
-                    if(
+                    if (
                         $x + $watermark->getWidth() <= $this->getWidth() &&
                         $y + $watermark->getHeight() <= $this->getHeight()
-                    ){
+                    ) {
                         break;
                     }
                     $watermark = new ImageResize($watermark->copyResource());
 
-                    if(in_array($position, [
+                    if (in_array($position, [
                         self::POSITION_CENTER,
                         self::POSITION_TOP,
                         self::POSITION_BOTTOM,
-                    ], true)){
+                    ], true)) {
                         $width = $this->getWidth();
-                    } else{
+                    } else {
                         $width = $this->getWidth() - $padding;
                     }
-                    if(in_array($position, [
+                    if (in_array($position, [
                         self::POSITION_CENTER,
                         self::POSITION_LEFT,
                         self::POSITION_RIGHT,
-                    ], true)){
+                    ], true)) {
                         $height = $this->getHeight();
-                    } else{
+                    } else {
                         $height = $this->getHeight() - $padding;
                     }
 
