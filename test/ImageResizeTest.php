@@ -1085,6 +1085,10 @@ class ImageResizeTest extends TestCase
         $this->assertEquals(dechex(static::COLOR_CORNERS), dechex(imagecolorat($resource, 199, 99)));
 
         $image = new ImageResize($this->copyImage());
+        $image->setWatermark($watermark, ImageResize::POSITION_CENTER, 100, ImageResize::FIT_RESIZE);
+        $this->save($image, $this->directoryOutput . '/testWatermarkSmallResource.png');
+
+        $image = new ImageResize($this->copyImage());
         $image->setWatermark($watermark, ImageResize::POSITION_CENTER, 10, ImageResize::FIT_AS_IS);
         $this->save($image, $this->directoryOutput . '/testWatermarkBigAsIsCenter.png');
         $resource = $image->copyResource();

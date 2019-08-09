@@ -847,7 +847,12 @@ class ImageResize
                     return $this;
                 case static::FIT_RESIZE:
                     $watermark = new ImageResize($watermark->copyResource());
-                    $watermark->resizeToBestFit($this->getWidth() - $padding * 2, $this->getHeight() - $padding * 2);
+                    $width = $this->getWidth() - $padding * 2;
+                    $height = $this->getHeight() - $padding * 2;
+                    if($width <= 1 || $height <= 1){
+                        return $this;
+                    }
+                    $watermark->resizeToBestFit($width, $height);
                     return $this->setWatermark($watermark, $position, $padding, $fit);
                 case static::FIT_AS_IS:
 
