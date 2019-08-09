@@ -218,6 +218,18 @@ class ImageResizeTest extends TestCase
         $this->assertEquals(100, $image->getWidth());
         $this->assertEquals(50, $image->getHeight());
         $this->save($image, $this->directoryOutput . '/testResizeToWidth.png');
+
+        $image = new ImageResize($this->copyImage());
+        $image->resizeToWidth(400);
+        $this->assertEquals(400, $image->getWidth());
+        $this->assertEquals(200, $image->getHeight());
+        $this->save($image, $this->directoryOutput . '/testResizeToWidthBig.png');
+
+        $image = new ImageResize($this->copyImage());
+        $image->resizeToWidth(400, false);
+        $this->assertEquals(200, $image->getWidth());
+        $this->assertEquals(100, $image->getHeight());
+        $this->save($image, $this->directoryOutput . '/testResizeToWidthBigNotIncrease.png');
     }
 
     /**
@@ -233,6 +245,18 @@ class ImageResizeTest extends TestCase
         $this->assertEquals(150, $image->getWidth());
         $this->assertEquals(75, $image->getHeight());
         $this->save($image, $this->directoryOutput . '/testResizeToHeight.png');
+
+        $image = new ImageResize($this->copyImage());
+        $image->resizeToHeight(200);
+        $this->assertEquals(400, $image->getWidth());
+        $this->assertEquals(200, $image->getHeight());
+        $this->save($image, $this->directoryOutput . '/testResizeToHeightBig.png');
+
+        $image = new ImageResize($this->copyImage());
+        $image->resizeToHeight(200, false);
+        $this->assertEquals(200, $image->getWidth());
+        $this->assertEquals(100, $image->getHeight());
+        $this->save($image, $this->directoryOutput . '/testResizeToHeightBigNotIncrease.png');
 
     }
 
@@ -250,12 +274,36 @@ class ImageResizeTest extends TestCase
         $this->assertEquals(50, $image->getHeight());
         $this->save($image, $this->directoryOutput . '/testResizeToBestFitWidth.png');
 
+        $image = new ImageResize($this->copyImage());
+        $image->resizeToBestFit(500, 500, false);
+        $this->assertEquals(200, $image->getWidth());
+        $this->assertEquals(100, $image->getHeight());
+        $this->save($image, $this->directoryOutput . '/testResizeToBestFitWidthBig.png');
+
+        $image = new ImageResize($this->copyImage());
+        $image->resizeToBestFit(500, 500, false);
+        $this->assertEquals(200, $image->getWidth());
+        $this->assertEquals(100, $image->getHeight());
+        $this->save($image, $this->directoryOutput . '/testResizeToBestFitWidthBigNotIncrease.png');
+
 
         $image = new ImageResize($this->copyImage());
         $image->resizeToBestFit(200, 50);
         $this->assertEquals(100, $image->getWidth());
         $this->assertEquals(50, $image->getHeight());
         $this->save($image, $this->directoryOutput . '/testResizeToBestFitHeight.png');
+
+        $image = new ImageResize($this->copyImage());
+        $image->resizeToBestFit(600, 150);
+        $this->assertEquals(300, $image->getWidth());
+        $this->assertEquals(150, $image->getHeight());
+        $this->save($image, $this->directoryOutput . '/testResizeToBestFitHeightBig.png');
+
+        $image = new ImageResize($this->copyImage());
+        $image->resizeToBestFit(600, 150, false);
+        $this->assertEquals(200, $image->getWidth());
+        $this->assertEquals(100, $image->getHeight());
+        $this->save($image, $this->directoryOutput . '/testResizeToBestFitHeightBigNotIncrease.png');
     }
 
     /**
