@@ -183,6 +183,11 @@ class ImageResize
         $this->setImage($image);
     }
 
+    public function __destruct()
+    {
+        imagedestroy($this->image);
+    }
+
     /**
      * @param int $format
      * @return string
