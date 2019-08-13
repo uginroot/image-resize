@@ -1,10 +1,7 @@
 <?php
 
 
-namespace Exception;
-
-
-use Uginroot\Exception\ImageResizeException;
+namespace Uginroot\Exception;
 
 class ImageResizeImpossibleToCreateDirectoryException extends ImageResizeException
 {

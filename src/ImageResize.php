@@ -2,7 +2,7 @@
 
 namespace Uginroot;
 
-use Exception\ImageResizeImpossibleToCreateDirectoryException;
+use Uginroot\Exception\ImageResizeImpossibleToCreateDirectoryException;
 use Uginroot\Exception\ImageResizeBadColorException;
 use Uginroot\Exception\ImageResizeBadFormatException;
 use Uginroot\Exception\ImageResizeBadPositionException;
