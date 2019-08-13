@@ -1,6 +1,6 @@
 # Install
 ```bash
-composer require uginroot/image-resize:^1.0.5
+composer require uginroot/image-resize:^1.0
 ```
 # Create
 #### createFromString
